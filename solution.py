@@ -64,26 +64,32 @@ def displayData(librariesList, booksList):
             print("BookID: " + str(book.id))
         print()
 
-def solution(librariesList, booksList):
+def basicSolution(librariesList, booksList):
 
-    sorted(librariesList, key=functools.cmp_to_key(compareLibrariesByRegistrationTimeAndBooksPerDay))
-    # for library 
+    librariesList.sort(key=functools.cmp_to_key(compareLibrariesByRegistrationTimeAndBooksPerDay))
+    for library in librariesList:
+        library.books.sort(key=functools.cmp_to_key(compareBooksByScore))
 
 
 
 def compareLibrariesByRegistrationTimeAndBooksPerDay(item1, item2):
     if item1.registrationTime == item2.registrationTime:
-        return item1.booksPerDay - item2.booksPerDay
-    
-    return item1.registrationTime - item2.registrationTime
+        result = item1.booksPerDay - item2.booksPerDay
+        return result
 
+    result = item1.registrationTime - item2.registrationTime
+    return result
 
+def compareBooksByScore(item1, item2):
+    return item2.score - item1.score
 
 def main():
     global B, L, D
     print('Put solution here')
     librariesList, booksList = parseFile('a_example.txt')
     displayData(librariesList, booksList)
+
+    basicSolution(librariesList, booksList)
 
 
 
