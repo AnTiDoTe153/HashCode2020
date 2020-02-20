@@ -71,6 +71,18 @@ def basicSolution(librariesList, booksList):
         library.books.sort(key=functools.cmp_to_key(compareBooksByScore))
 
 
+def printSolution(librariesList, booksList):
+    outputFile = open('solution', 'w')
+
+    outputFile.write(str(len(librariesList)) + "\n")
+    for library in librariesList:
+        outputFile.write(str(library.id) + " " + str(library.booksNumber) + "\n")
+        booksLine = ""
+        for book in library.books:
+            booksLine = booksLine + str(book.id) + " "
+        outputFile.write(booksLine + "\n")
+
+    outputFile.close()
 
 def compareLibrariesByRegistrationTimeAndBooksPerDay(item1, item2):
     if item1.registrationTime == item2.registrationTime:
@@ -91,7 +103,7 @@ def main():
 
     basicSolution(librariesList, booksList)
 
-
+    printSolution(librariesList, booksList)
 
 if __name__ == '__main__':
     main()
