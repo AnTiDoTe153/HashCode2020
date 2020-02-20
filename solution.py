@@ -43,10 +43,7 @@ def parseFile(filePath):
 
     return (librariesList, booksList)
 
-def main():
-    global B, L, D
-    print('Put solution here')
-    librariesList, booksList = parseFile('a_example.txt')
+def displayData(librariesList, booksList):
     print("B: " + str(B) + " L: " + str(L) + " D: " + str(D))
     print("\nBooks list:")
     for index, book in enumerate(booksList):
@@ -58,6 +55,12 @@ def main():
         for book in library.books:
             print("BookID: " + str(book))
         print()
+
+def main():
+    global B, L, D
+    print('Put solution here')
+    librariesList, booksList = parseFile('a_example.txt')
+    displayData(librariesList, booksList)
 
 
 
