@@ -1,12 +1,19 @@
+import functools
 
+class Book:
+
+    def __init__(self, id, score):
+        self.id = id
+        self.score = score
 
 class Library:
 
-    def __init__(self, books, registrationTime, booksPerDay):
+    def __init__(self, books, registrationTime, booksPerDay, id):
         self.books = books
         self.registrationTime = registrationTime
         self.booksPerDay = booksPerDay
         self.booksNumber = len(books)
+        self.id = id
 
 
 def parseFile(filePath):
@@ -24,8 +31,9 @@ def parseFile(filePath):
     L = int(lineTokens[1])
     D = int(lineTokens[2])
 
-    booksList = [int(x) for x in inputFile.readline().split(' ')]
 
+    for index, bookId in enumerate(inputFile.readline().split(' ')):
+        booksList.append(Book(int(index), int(bookId)))
 
     for i in range(L):
         lineTokens = inputFile.readline().split(' ')
@@ -33,9 +41,9 @@ def parseFile(filePath):
         T = int(lineTokens[1])
         M = int(lineTokens[2])
 
-        ids = [int(x) for x in inputFile.readline().split(' ')]
+        ids = [booksList[int(x)] for x in inputFile.readline().split(' ')]
 
-        newLibrary = Library(ids, T, M)
+        newLibrary = Library(ids, T, M, i)
         librariesList.append(newLibrary)
 
 
@@ -46,15 +54,30 @@ def parseFile(filePath):
 def displayData(librariesList, booksList):
     print("B: " + str(B) + " L: " + str(L) + " D: " + str(D))
     print("\nBooks list:")
-    for index, book in enumerate(booksList):
-        print("ID: " + str(index) + " SCORE: " + str(book))
+    for book in booksList:
+        print("ID: " + str(book.id) + " SCORE: " + str(book.score))
     
     print("\nLibraries:")
     for index, library in enumerate(librariesList):
         print("ID: " + str(index) + " registrationTime: " + str(library.registrationTime) + " booksPerDay: " + str(library.booksPerDay) + " numberOfBooks: " + str(library.booksNumber))
         for book in library.books:
-            print("BookID: " + str(book))
+            print("BookID: " + str(book.id))
         print()
+
+def solution(librariesList, booksList):
+
+    sorted(librariesList, key=functools.cmp_to_key(compareLibrariesByRegistrationTimeAndBooksPerDay))
+    # for library 
+
+
+
+def compareLibrariesByRegistrationTimeAndBooksPerDay(item1, item2):
+    if item1.registrationTime == item2.registrationTime:
+        return item1.booksPerDay - item2.booksPerDay
+    
+    return item1.registrationTime - item2.registrationTime
+
+
 
 def main():
     global B, L, D
