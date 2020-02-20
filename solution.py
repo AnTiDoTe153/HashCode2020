@@ -14,6 +14,9 @@ class Library:
         self.booksPerDay = booksPerDay
         self.booksNumber = len(books)
         self.id = id
+        self.startTime = 0
+        self.computedBookList = []
+        self.currentIndex = 0
 
 
 def parseFile(filePath):
@@ -72,13 +75,13 @@ def basicSolution(librariesList, booksList):
 
 
 def printSolution(librariesList, booksList):
-    outputFile = open('solution', 'w')
+    outputFile = open('solutionA', 'w')
 
     outputFile.write(str(len(librariesList)) + "\n")
     for library in librariesList:
-        outputFile.write(str(library.id) + " " + str(library.booksNumber) + "\n")
+        outputFile.write(str(library.id) + " " + str(len(library.computedBookList)) + "\n")
         booksLine = ""
-        for book in library.books:
+        for book in library.computedBookList:
             booksLine = booksLine + str(book.id) + " "
         outputFile.write(booksLine + "\n")
 
@@ -95,6 +98,41 @@ def compareLibrariesByRegistrationTimeAndBooksPerDay(item1, item2):
 def compareBooksByScore(item1, item2):
     return item2.score - item1.score
 
+def improveSolution(librariesList, booksList):
+
+    global D
+    global B
+
+    historyList = [-1 for x in range(B)]
+
+    calculateStartTimes(librariesList)
+    for currentDay in range(D):
+        for library in librariesList:
+            if currentDay < library.startTime:
+                continue
+            
+            counter = 0
+            while counter < library.booksPerDay and library.currentIndex < library.booksNumber:
+                if historyList[library.books[library.currentIndex].id] == -1:
+                    library.computedBookList.append(library.books[library.currentIndex])
+                    historyList[library.books[library.currentIndex].id] = 1
+                    counter = counter + 1
+                library.currentIndex = library.currentIndex + 1
+                
+    
+
+
+
+
+
+
+def calculateStartTimes(librariesList):
+    currentStartTime = 0
+
+    for library in librariesList:
+        currentStartTime = currentStartTime + library.registrationTime
+        library.startTime = currentStartTime
+
 def main():
     global B, L, D
     print('Put solution here')
@@ -102,7 +140,7 @@ def main():
     displayData(librariesList, booksList)
 
     basicSolution(librariesList, booksList)
-
+    improveSolution(librariesList, booksList)
     printSolution(librariesList, booksList)
 
 if __name__ == '__main__':
