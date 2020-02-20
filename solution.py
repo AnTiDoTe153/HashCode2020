@@ -75,10 +75,12 @@ def basicSolution(librariesList, booksList):
 
 
 def printSolution(librariesList, booksList):
-    outputFile = open('solutionA', 'w')
+    outputFile = open('solutionF', 'w')
 
-    outputFile.write(str(len(librariesList)) + "\n")
-    for library in librariesList:
+    result = filterEmptyLibraries(librariesList)
+
+    outputFile.write(str(len(result)) + "\n")
+    for library in result:
         outputFile.write(str(library.id) + " " + str(len(library.computedBookList)) + "\n")
         booksLine = ""
         for book in library.computedBookList:
@@ -97,6 +99,16 @@ def compareLibrariesByRegistrationTimeAndBooksPerDay(item1, item2):
 
 def compareBooksByScore(item1, item2):
     return item2.score - item1.score
+
+
+def filterEmptyLibraries(librariesList):
+    result = []
+
+    for library in librariesList:
+        if len(library.computedBookList) > 0:
+            result.append(library)
+
+    return result
 
 def improveSolution(librariesList, booksList):
 
@@ -136,7 +148,7 @@ def calculateStartTimes(librariesList):
 def main():
     global B, L, D
     print('Put solution here')
-    librariesList, booksList = parseFile('a_example.txt')
+    librariesList, booksList = parseFile('f_libraries_of_the_world.txt')
     displayData(librariesList, booksList)
 
     basicSolution(librariesList, booksList)
