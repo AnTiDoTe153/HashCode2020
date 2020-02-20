@@ -48,9 +48,16 @@ def main():
     print('Put solution here')
     librariesList, booksList = parseFile('a_example.txt')
     print("B: " + str(B) + " L: " + str(L) + " D: " + str(D))
-    print("Books list:")
+    print("\nBooks list:")
     for index, book in enumerate(booksList):
         print("ID: " + str(index) + " SCORE: " + str(book))
+    
+    print("\nLibraries:")
+    for index, library in enumerate(librariesList):
+        print("ID: " + str(index) + " registrationTime: " + str(library.registrationTime) + " booksPerDay: " + str(library.booksPerDay) + " numberOfBooks: " + str(library.booksNumber))
+        for book in library.books:
+            print("BookID: " + str(book))
+        print()
 
 
 
